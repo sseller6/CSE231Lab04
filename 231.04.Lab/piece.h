@@ -54,12 +54,12 @@ public:
    Piece(const Position& pos, bool isWhite = true);
    Piece(int c, int r, bool isWhite = true);
    Piece(const Piece& piece);
-   virtual ~Piece()                                   {}
+   virtual ~Piece() {}
    virtual const Piece& operator = (const Piece& rhs);
 
    // getters
-   virtual bool operator == (PieceType pt) const { return true;         }
-   virtual bool operator != (PieceType pt) const { return true;         }
+   virtual bool operator == (PieceType pt) const { return SPACE == pt; }
+   virtual bool operator != (PieceType pt) const { return SPACE != pt; }
    virtual bool isWhite()                  const { return true;         }
    virtual bool isMoved()                  const { return true;         }
    virtual int  getNMoves()                const { return 9999;         }
