@@ -17,6 +17,34 @@
 #include <cassert>     // because we are paranoid
 using namespace std;
 
+/************************************************
+ * PIECE : NON-DEFAULT CONSTRUCTORS
+ ***********************************************/
+Piece::Piece(const Position& pos, bool isWhite)
+{
+	position = pos;
+	fWhite = isWhite;
+
+	nMoves = 0;
+	lastMove = 0;
+}
+
+Piece::Piece(int c, int r, bool isWhite)
+{
+	position = Position(c, r);
+	fWhite = isWhite;
+
+	nMoves = 0;
+	lastMove = 0;
+}
+
+Piece::Piece(const Piece& piece)
+{
+	nMoves = piece.nMoves;
+	fWhite = piece.fWhite;
+	position = piece.position;
+	lastMove = piece.lastMove;
+}
 
 /************************************************
  * PIECE : ASSIGN
