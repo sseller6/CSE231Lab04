@@ -113,5 +113,13 @@ void TestKnight::getMoves_end()
  **************************************/
 void TestKnight::getType()
 {
-   assertUnit(NOT_YET_IMPLEMENTED);
+   // SETUP
+   
+   // EXERCISE
+   Knight k = Knight(0, 0, true);
+   PieceType kType = k.getType();
+   
+   // VERIFY
+   assertUnit(kType == KNIGHT);
+   
 }  // TEARDOWN
