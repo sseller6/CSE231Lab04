@@ -29,18 +29,28 @@ public:
    friend TestMove;
    friend TestBoard;
 
-   // constructor
+   // Default Constructor
    Move();
-   Move(const string & rhs) {}
-   bool operator<(const Move & rhs) const { return true; }
-   bool operator==(const Move& rhs) const { return true; }
-   void read(const string & rhs) {}
-   string getText() const { return std::string(""); }
 
+   // We can work with a single input
+   Move(const char* input);
+   void assignMove(const char * input);
+   
+   // Or we can take in separate values
+   Move(const Position source, const Position destination, const MoveType moveType=MOVE, const PieceType capture=SPACE);
+   
+   Position getSource() { return source.getLocation(); }
+   Position getDestination() { return dest.getLocation(); }
+   PieceType getPromote() { return promote; }
+   PieceType getCapture() { return capture; }
+   MoveType getMoveType() { return moveType; }
+   bool getIsWhite() { return isWhite; }
+   string getText() { return text; }
+   
 
 private:
-   char letterFromPieceType(PieceType pt)     const { return 'z'; }
-   PieceType pieceTypeFromLetter(char letter) const { return SPACE; }
+   char letterFromPieceType(PieceType pt) const;
+   PieceType pieceTypeFromLetter(char letter) const;
 
 
 

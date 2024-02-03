@@ -63,6 +63,16 @@ const Piece & Piece::operator = (const Piece & rhs)
  * PIECE : GET MOVES
  * Iterate through the moves decorator to allow a piece to move
  ***********************************************/
+void Piece::setLastMove(int currentMove)
+{
+   lastMove = currentMove;
+   nMoves++;
+}
+
+/************************************************
+ * PIECE : GET MOVES
+ * Iterate through the moves decorator to allow a piece to move
+ ***********************************************/
 void Piece::getMoves(set <Move> & movesSet, const Board & board) const
 {
 }

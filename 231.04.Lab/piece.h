@@ -60,15 +60,15 @@ public:
    // getters
    virtual bool operator == (PieceType pt) const { return SPACE == pt; }
    virtual bool operator != (PieceType pt) const { return SPACE != pt; }
-   virtual bool isWhite()                  const { return true;         }
-   virtual bool isMoved()                  const { return true;         }
-   virtual int  getNMoves()                const { return 9999;         }
-   virtual void decrementNMoves()                {                      }
-   virtual const Position & getPosition()  const { return Position();   }
-   virtual bool justMoved(int currentMove) const { return true;         }
+   virtual bool isWhite()                  const { return fWhite;      }
+   virtual bool isMoved()                  const { return nMoves != 0; }
+   virtual int  getNMoves()                const { return nMoves;      }
+   virtual void decrementNMoves()                { nMoves--;           }
+   virtual const Position & getPosition()  const { return position;    }
+   virtual bool justMoved(int currentMove) const { return lastMove >= currentMove - 2; }
 
    // setter
-   virtual void setLastMove(int currentMove)     {                      }
+   virtual void setLastMove(int currentMove);
 
    // overwritten by the various pieces
    virtual PieceType getType()                                    const = 0;
