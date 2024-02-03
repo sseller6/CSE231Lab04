@@ -150,6 +150,14 @@ Move::Move(const Position source, const Position destination, const MoveType mov
 }
 
 /***************************************************
+ * MOVE : OPERATOR<
+ ***************************************************/
+bool Move::operator< (const Move &rhs) const
+{
+   return this->dest.getLocation() < rhs.dest.getLocation();
+}
+
+/***************************************************
  * MOVE : LETTER FROM PIECE TYPE
  ***************************************************/
 char Move::letterFromPieceType(PieceType pt) const

@@ -7,6 +7,9 @@
  *    The knight class
  ************************************************************************/
 
+#include <iostream>
+using namespace std;
+
 #include "pieceKnight.h"
 #include "board.h"
 #include "uiDraw.h"    // for draw*()
@@ -22,35 +25,41 @@ void Knight::display(ogstream* pgout) const
 
 
 /**********************************************
- * KNIGHT : GET POSITIONS
+ * KNIGHT : GET POSSIBLE MOVES
  *********************************************/
 void Knight::getMoves(set <Move>& moves, const Board& board) const
 {
+   cout << "1 GETMOVE" << endl;
    Delta possibleMoves[8] = {
-                {-1,  2}, { 1,  2},
-      {-2,  1},                    { 2,  1},
+                { 2, -1}, { 2,  1},
+      { 1, -2},                    { 1,  2},
       
-      {-2, -1},                    { 2, -1},
-                {-1, -2}, { 1, -2}
+      {-1, -2},                    { -1,  2},
+                {-2, -1}, {-2,  1}
    };
    for (int i = 0; i < 8; i++)
    {
       Delta d = possibleMoves[i];
-      // Cannot move there if it's off the board
       Position dest = this->position + d;
-      if (0 < dest.getCol() || dest.getCol() < 7)
+      cout << dest.getCol() << ", " << dest.getRow() << endl;
+      
+      // Cannot move there if it's off the board
+      if (dest.getCol() != -1)
       {
-         if (0 < dest.getRow() || dest.getRow() < 7)
+         cout << "2 IN_COL" << endl;
+         if (dest.getRow() != -1)
          {
-            // or occupied by a pawn of same team
-            if (board[dest].isWhite() != this->isWhite())
+            cout << "3 IN_ROW" << endl;
+            // or occupied by a piece of same team
+            if (board[dest].isWhite() != this->isWhite() || board[dest].getType() == SPACE)
             {
                bool isCapture = board[dest].getType() != SPACE;
-               Move move;
-               moves.insert(Move(this->position,
-                                 dest,
-                                 move.MOVE,
-                                 isCapture ? board[dest].getType() : SPACE));
+               Move move = Move(this->position,
+                                dest,
+                                move.MOVE,
+                                isCapture ? board[dest].getType() : SPACE);
+               cout << "4 INSERT: " << move.getText() << endl;
+               moves.insert(move);
             }
          }
       }

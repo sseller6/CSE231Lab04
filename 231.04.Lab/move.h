@@ -47,6 +47,7 @@ public:
    bool getIsWhite() { return isWhite; }
    string getText() { return text; }
    
+   bool operator< (const Move& rhs) const;
 
 private:
    char letterFromPieceType(PieceType pt) const;
