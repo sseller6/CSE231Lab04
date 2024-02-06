@@ -35,10 +35,12 @@ using namespace std;
  ***********************************************/
 void Board::reset(bool fFree)
 {
-   // free everything
-   for (int r = 0; r < 8; r++)
-      for (int c = 0; c < 8; c++)
-         board[c][r] = nullptr;
+   // free everything that's not empty
+   if (fFree)
+      for (int r = 0; r < 8; r++)
+         for (int c = 0; c < 8; c++)
+            if (board[c][r])
+               board[c][r] = nullptr;
 }
 
 // we really REALLY need to delete this.
@@ -54,7 +56,7 @@ const Piece& Board::operator [] (const Position& pos) const
 }
 Piece& Board::operator [] (const Position& pos)
 {
-   return space;
+   return *board[pos.getCol()][pos.getRow()];
 }
 
  /***********************************************
@@ -73,7 +75,10 @@ void Board::display(const Position & posHover, const Position & posSelect) const
  ************************************************/
 Board::Board(ogstream* pgout, bool noreset) : pgout(pgout), numMoves(0)
 {
-
+   if (noreset)
+      for (int r = 0; r < 8; r++)
+         for (int c = 0; c < 8; c++)
+            board[c][r] = nullptr;
 }
 
 
