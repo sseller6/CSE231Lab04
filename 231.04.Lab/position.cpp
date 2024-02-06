@@ -102,6 +102,8 @@ void Position::setLocation(int location)
 // POSITION TEXT
 Position::Position(const char * s)
 {
+   set(s[0] - 'a', s[1] - '1');
+   return;
    int col = 16;
    int row = 16;
    char first = s[0];

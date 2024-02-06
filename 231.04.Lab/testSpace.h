@@ -54,7 +54,7 @@ private:
    /*************************************
     * CONSTRUCT : h8
     * Input: 7,7
-    * Output: a1
+    * Output: h8
     **************************************/
    void construct_h8()
    {
@@ -66,6 +66,7 @@ private:
       Space space(col, row);
 
       // VERIFY
+      std::cout << space.position << std::endl;
       assertUnit(space.position == Position("h8"));
 
    }  // TEARDOWN

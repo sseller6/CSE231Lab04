@@ -67,7 +67,7 @@ public:
    
    // Row/Col : The position class can work with row/column,
    //           which are 0..7 and 0...7
-   Position(int c, int r) : colRow((uint8_t)(c * 16 + r)) {}
+   Position(int c, int r) : colRow(0) { set(c, r); }
    virtual int getCol() const;
    virtual int getRow() const;
    void setRow(int r);
