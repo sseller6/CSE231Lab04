@@ -66,7 +66,6 @@ private:
       Space space(col, row);
 
       // VERIFY
-      std::cout << space.position << std::endl;
       assertUnit(space.position == Position("h8"));
 
    }  // TEARDOWN

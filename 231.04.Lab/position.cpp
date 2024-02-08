@@ -98,42 +98,66 @@ void Position::setLocation(int location)
    colRow = (uint8_t)(col * 16 + row);
 }
 
+// POSITION PIXELS
+void Position::setXY(double x, double y)
+{
+   // TODO: is this where we worry about border resizing?
+   
+   // Fix y according to flippage
+   double flipped_y = (8.0 * squareHeight + 2.0 * OFFSET_BOARD) - y;
+   
+   // Fix x and y according to border offset
+   double real_x =         x - OFFSET_BOARD;
+   double real_y = flipped_y - OFFSET_BOARD;
+   
+   // Scale back down to col and row
+   int fix_x = real_x / squareWidth;
+   int fix_y = real_y / squareHeight;
+   
+   // Set according to fixed values
+   set(fix_x, fix_y);
+}
+
 
 // POSITION TEXT
 Position::Position(const char * s)
 {
-   set(s[0] - 'a', s[1] - '1');
-   return;
-   int col = 16;
-   int row = 16;
-   char first = s[0];
-   char second = s[1];
-   // ASCII numbers: 48-55
-   int zeroChar = '0';
-   int sevenChar = '7';
-   // ASCII lowercase: 97-122 UPPERCASE: 65-90
-   if ((first >= 97 && first <= 104) || (first >= 65 && first <= 72))        // first is a valid letter
-   {
-      if (first >= 97)
-         first -= 32;
-      col = first - 65;
-      if (second >= zeroChar && second <= sevenChar)                                      // second is a valid number
-         row = second - (zeroChar + 1); // row starts at 1 visually
-   }
-   else if (first >= zeroChar && first <= sevenChar)                                      // first is a valid number
-   {
-      row = first - (zeroChar + 1); // row starts at 1 visually
-      if ((second >= 97 && second <= 104) || (second >= 65 && second <= 72)) // second is a valid letter
-      {
-         if (second >= 97)
-            second -= 32;
-         col = second - 65;
-      }
-   }
-   colRow = (uint8_t)(col * 16 + row);
+   if ((s[0] < 'A' || s[0] > 'H') && (s[0] < 'a' || s[0] > 'h'))
+      setInvalid();
+   else if (s[1] < '1' || s[1] > '8')
+      setInvalid();
+   else
+      set(s[0] - 'a', s[1] - '1');
+//   int col = 16;
+//   int row = 16;
+//   char first = s[0];
+//   char second = s[1];
+//   // ASCII numbers: 48-55
+//   int zeroChar = '0';
+//   int sevenChar = '7';
+//   // ASCII lowercase: 97-122 UPPERCASE: 65-90
+//   if ((first >= 97 && first <= 104) || (first >= 65 && first <= 72))        // first is a valid letter
+//   {
+//      if (first >= 97)
+//         first -= 32;
+//      col = first - 65;
+//      if (second >= zeroChar && second <= sevenChar)                                      // second is a valid number
+//         row = second - (zeroChar + 1); // row starts at 1 visually
+//   }
+//   else if (first >= zeroChar && first <= sevenChar)                                      // first is a valid number
+//   {
+//      row = first - (zeroChar + 1); // row starts at 1 visually
+//      if ((second >= 97 && second <= 104) || (second >= 65 && second <= 72)) // second is a valid letter
+//      {
+//         if (second >= 97)
+//            second -= 32;
+//         col = second - 65;
+//      }
+//   }
+//   colRow = (uint8_t)(col * 16 + row);
 }
 
-// Make way for LOTS of redundant code... how could we reuse the nondefault constructor?
+// TODO: make less redundant
 const Position & Position::operator = (const char * rhs)
 {
    int col = 16;

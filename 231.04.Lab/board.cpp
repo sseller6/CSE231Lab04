@@ -37,10 +37,23 @@ void Board::reset(bool fFree)
 {
    // free everything that's not empty
    if (fFree)
+      free();
+   else
+   {
+      board[1][0] = new Knight(1, 0, false);
+      board[6][0] = new Knight(6, 0, false);
+      board[1][7] = new Knight(1, 7, true);
+      board[6][7] = new Knight(6, 7, true);
       for (int r = 0; r < 8; r++)
+      {
          for (int c = 0; c < 8; c++)
-            if (board[c][r])
-               board[c][r] = nullptr;
+         {
+            if (!board[c][r])
+               board[c][r] = new Space(c, r);
+         }
+      }
+      
+   }
 }
 
 // we really REALLY need to delete this.
@@ -65,7 +78,37 @@ Piece& Board::operator [] (const Position& pos)
  ***********************************************/
 void Board::display(const Position & posHover, const Position & posSelect) const
 {
-   
+   pgout->drawBoard();
+   pgout->drawHover(posHover);
+   pgout->drawSelected(posSelect);
+   for (int r = 0; r < 8; r++)
+   {
+      for (int c = 0; c < 8; c++)
+      {
+         Piece * piece = board[c][r];
+         switch (piece->getType())
+         {
+            case PAWN:
+               pgout->drawPawn(Position(c, r), !piece->isWhite());
+               break;
+            case ROOK:
+               pgout->drawRook(Position(c, r), !piece->isWhite());
+               break;
+            case KNIGHT:
+               pgout->drawKnight(Position(c, r), !piece->isWhite());
+               break;
+            case BISHOP:
+               pgout->drawBishop(Position(c, r), !piece->isWhite());
+               break;
+            case QUEEN:
+               pgout->drawQueen(Position(c, r), !piece->isWhite());
+               break;
+            case KING:
+               pgout->drawKing(Position(c, r), !piece->isWhite());
+               break;
+         }
+      }
+   }
 }
 
 
@@ -76,9 +119,9 @@ void Board::display(const Position & posHover, const Position & posSelect) const
 Board::Board(ogstream* pgout, bool noreset) : pgout(pgout), numMoves(0)
 {
    if (noreset)
-      for (int r = 0; r < 8; r++)
-         for (int c = 0; c < 8; c++)
-            board[c][r] = nullptr;
+      free();
+   else
+      reset();
 }
 
 
@@ -88,7 +131,9 @@ Board::Board(ogstream* pgout, bool noreset) : pgout(pgout), numMoves(0)
  ************************************************/
 void Board::free()
 {
-
+   for (int r = 0; r < 8; r++)
+      for (int c = 0; c < 8; c++)
+         board[c][r] = nullptr;
 }
 
 
@@ -111,7 +156,35 @@ void Board::assertBoard()
  *********************************************/
 void Board::move(const Move & move)
 {  
-
+   Position src = move.getSource();
+   Position des = move.getDestination();
+   
+   int srcCol = src.getCol();
+   int srcRow = src.getRow();
+   int desCol = des.getCol();
+   int desRow = des.getRow();
+   
+   Piece * pieceMove = board[srcCol][srcRow];
+   Piece * pieceDest = board[desCol][desRow];
+   
+   // If only move
+   if (move.getMoveType() == move.MOVE && !move.isCapture())
+   {
+      board[desCol][desRow] = pieceMove;
+      board[srcCol][srcRow] = pieceDest;
+   }
+   
+   // If capture
+   else if (move.isCapture())
+   {
+      Piece * replace = new Space(srcCol, srcRow);
+      board[desCol][desRow] = pieceMove;
+      board[srcCol][srcRow] = replace;
+   }
+   
+   numMoves++;
+   
+   // TODO: write ENPASSANT and PROMOTE
 }
 
 

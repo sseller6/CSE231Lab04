@@ -16,7 +16,7 @@ using std::ostream;
 using std::istream;
 
 const int SIZE_SQUARE  = 32;   // number of pixels in a square by default
-const int OFFSET_BOARD = 50;   // boarder between the board and the edge of screen
+const int OFFSET_BOARD = 50;   // border between the board and the edge of screen
 
 /***********************************************
  * DELTA
@@ -85,13 +85,13 @@ public:
    // Pixels:    The Position class can work with screen coordinates,
    //            a.k.a. Pixels, these are X and Y coordinates. Note that
    //            we need to scale them according to the size of the board.
-   int getX()   const { return 99; }
-   int getY()   const { return 99; }
-   void setXY(double x, double y) { }
-   double getSquareWidth()  const { return 99; }
-   double getSquareHeight() const { return 99; }
-   void setSquareWidth (double width )  {  }
-   void setSquareHeight(double height)  {  }
+   int getX()   const { return getCol() * squareWidth; }
+   int getY()   const { return getRow() * squareHeight; }
+   void setXY(double x, double y);
+   double getSquareWidth()  const { return squareWidth; }
+   double getSquareHeight() const { return squareHeight; }
+   void setSquareWidth (double width )  { squareWidth = width;   }
+   void setSquareHeight(double height)  { squareHeight = height; }
 
    // Delta:    The Position class can work with deltas, which are
    //           offsets from a given location. This helps pieces move
